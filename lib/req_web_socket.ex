@@ -33,8 +33,8 @@ defmodule ReqWebSocket do
   @doc """
   Adds the plugin to the `Req.Request` struct. Since this plugin replaces the
   adapter that is used, not all of the options supported by `Req.new/1` are
-  applicable. This plugin does not add any additional options beyond what Req
-  itself provides.
+  applicable, this also means there is no connection pooling. This plugin does
+  not add any additional options beyond what Req itself provides.
 
   ## Supported Options
 
