@@ -8,11 +8,15 @@ defmodule ReqWebSocket do
       resp =
         Req.new()
         |> ReqWebSocket.attach()
-        |> Req.get!(into: :self, url: "wss://reqbin.org/")
+        |> Req.get!(into: :self, url: "wss://echo.websocket.org/")
 
       message = receive do message -> message end
-      {:ok, resp, [ping: ""]} = ReqWebSocket.parse_message(resp, message)
-      {:ok, resp} = ReqWebSocket.send_frame(resp, :pong)
+      {:ok, resp, [text: _]} = ReqWebSocket.parse_message(resp, message)
+
+      {:ok, resp} = ReqWebSocket.send_frame(resp, :ping)
+
+      message = receive do message -> message end
+      {:ok, resp, [pong: ""]} = ReqWebSocket.parse_message(resp, message)
   """
 
   defmodule UnsupportedIntoError do
